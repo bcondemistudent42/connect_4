@@ -6,7 +6,7 @@
 /*   By: bcondemi <bcondemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/26 10:43:56 by bcondemi          #+#    #+#             */
-/*   Updated: 2026/09/26 20:44:58 by bcondemi         ###   ########.fr       */
+/*   Updated: 2026/09/26 21:15:26 by bcondemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,6 @@
 
 int make_player_move(int **grid, int line_nb, int column_nb, int player_index);
 int get_height(int **grid, int column_index, int line_nb);
-
-// TODO:
-// choose the first to play randomly
-// display the grid and the pawns
-// give a number to each column, then wait for input of the player and make the pawn spawn
-
-// the max index is the bottom of the column
-// the 0 index for lines is the left
 
 void *free_all(int **grid, int i)
 {
@@ -71,7 +63,7 @@ int display_grid(int **grid, int line_nb, int column_nb)
 		while (j < column_nb)
 		{
 			ft_putstr_fd("|", 1);
-			if (j + 1 >= column_nb)
+			if (j == column_nb - 1)
 			{
 				if (grid[j][i] == PLAYER)
 					pawns = " O ";
@@ -97,7 +89,7 @@ int display_grid(int **grid, int line_nb, int column_nb)
 
 	i = 0;
 	ft_putstr_fd(" ", 1);
-	while (i < line_nb + 1)
+	while (i < column_nb)
 	{
 		ft_putstr_fd("‾‾‾‾", 1);
 		i++;
@@ -105,7 +97,7 @@ int display_grid(int **grid, int line_nb, int column_nb)
 	ft_putstr_fd("\n", 1);
 
 	i = 0;
-	while (i < line_nb + 1)
+	while (i < column_nb)
 	{
 		ft_putstr_fd("  ", 1);
 		ft_putstr_fd(ft_itoa(i), 1);
@@ -123,6 +115,7 @@ int launch_game(int **grid, int line_nb, int column_nb)
 {
 	int column_index;
 
+	// to make correctly with nice condition
 	while (1 == 1)
 	{
 		column_index = ft_atoi(get_next_line(0));
@@ -130,23 +123,23 @@ int launch_game(int **grid, int line_nb, int column_nb)
 		else
 			return (1);
 		display_grid(grid, line_nb, column_nb);
-
+		// TODO choose if : depend on the first random
+		// make bot play
+		// make the player play
 	}
 }
 
 int make_player_move(int **grid, int line_nb, int column_nb, int column_index)
 {
-	// to add some check with height of the grid when to much pawns
-	
-	int height = get_height(grid, column_index, line_nb);
+
+	int height;
+
+	height = get_height(grid, column_index, line_nb);
 
 	if (height < 0)
 		return (1);
-	printf("height %d\n", height);
-	printf("column index %d\n", column_index);
-	// to do a column index - 1 for the output
-	
-	grid[column_index][height] = COMPUTER;
+
+	grid[column_index][height] = PLAYER;
 	return (0);
 }
 
@@ -178,7 +171,6 @@ int main(int argc, char **argv)
 		return (1);
 
 	launch_game(grid, line_nb, column_nb);
-	// display_grid(grid, line_nb, column_nb);
 
 	free_all(grid, line_nb);
 }
