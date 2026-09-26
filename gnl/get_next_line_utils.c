@@ -6,7 +6,7 @@
 /*   By: bcondemi <bcondemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 14:30:23 by bcondemi          #+#    #+#             */
-/*   Updated: 2026/09/26 14:27:27 by bcondemi         ###   ########.fr       */
+/*   Updated: 2026/09/26 14:42:33 by bcondemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,17 @@ char	*ft_fill_line(int fd, char *output_line, char stock[])
 	return (output_line);
 }
 
-size_t	ft_strlen(char *str)
-{
-	size_t	i;
+// size_t	ft_strlen(char *str)
+// {
+// 	size_t	i;
 
-	if (!str || str[0] == '\0')
-		return (0);
-	i = 0;
-	while (str[i] != '\0')
-		i++;
-	return (i);
-}
+// 	if (!str || str[0] == '\0')
+// 		return (0);
+// 	i = 0;
+// 	while (str[i] != '\0')
+// 		i++;
+// 	return (i);
+// }
 
 char	*ft_strjoin(char *s1, char s2[])
 {
