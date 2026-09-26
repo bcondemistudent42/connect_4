@@ -6,14 +6,11 @@
 /*   By: bcondemi <bcondemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/26 10:43:56 by bcondemi          #+#    #+#             */
-/*   Updated: 2026/09/26 12:00:26 by bcondemi         ###   ########.fr       */
+/*   Updated: 2026/09/26 14:26:01 by bcondemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "libft/libft.h"
-
- #include <stdio.h>
+#include "header.h"
 
 void *free_all(int **grid, int i);
 int **create_grid(int line, int column);
@@ -36,13 +33,20 @@ int main(int argc, char **argv)
 	grid = create_grid(line_nb, column_nb);
 	if (grid == NULL)
 		return (1);
+
+	// display_grid();
+	printf("%d\n",ft_atoi(get_next_line(0)));
+
 	free_all(grid, line_nb);
 }
+
 // TODO:
-// create the full grid properly
 // choose the first to play randomly
 // display the grid and the pawns
 // give a number to each column, then wait for input of the player and make the pawn spawn
+
+// the 0th index is the bottomof the column
+
 
 int **create_grid(int line_nb, int column_nb)
 {
@@ -76,3 +80,8 @@ void *free_all(int **grid, int i)
 	free(grid);
 	return NULL;
 }
+
+// int display_grid(int **grid, int line_nb, int column_nb)
+// {
+	
+// }
