@@ -6,7 +6,7 @@
 /*   By: bcondemi <bcondemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/26 10:43:56 by bcondemi          #+#    #+#             */
-/*   Updated: 2026/09/26 15:03:12 by bcondemi         ###   ########.fr       */
+/*   Updated: 2026/09/26 15:33:54 by bcondemi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 void *free_all(int **grid, int i);
 int **create_grid(int line, int column);
 int display_grid(int **grid, int line_nb, int column_nb);
-
+int launch_game(int **grid, int line_nb, int column_nb);
+int make_player_move(int **grid, int line_nb, int column_nb, int player_index);
+int get_height(int **grid, int column_index, int line_nb);
 
 int main(int argc, char **argv)
 {
@@ -35,8 +37,8 @@ int main(int argc, char **argv)
 	if (grid == NULL)
 		return (1);
 
-	display_grid(grid, line_nb, column_nb);
-	// printf("%d\n",ft_atoi(get_next_line(0)));
+	launch_game(grid, line_nb, column_nb);
+	// display_grid(grid, line_nb, column_nb);
 
 	free_all(grid, line_nb);
 }
@@ -46,7 +48,7 @@ int main(int argc, char **argv)
 // display the grid and the pawns
 // give a number to each column, then wait for input of the player and make the pawn spawn
 
-// the top th index is the bottom of the column
+// the max index is the bottom of the column
 // the 0 index for lines is the left
 
 
@@ -100,7 +102,7 @@ int display_grid(int **grid, int line_nb, int column_nb)
 				ft_putstr_fd("\n", 1);
 				break ;
 			}
-			// ft_putstr_fd(pawns, 1);
+			// to see maybe segfault from here
 			if (grid[j][i] == COMPUTER)
 				pawns = " X ";
 			else if (grid[j][i] == PLAYER)
@@ -108,10 +110,67 @@ int display_grid(int **grid, int line_nb, int column_nb)
 			else
 				pawns = "   ";
 			ft_putstr_fd(pawns, 1);
-			// here to put depending on the pawns master
 			i++;
 		}
 		j++;
 	}
+
+	i = 1;
+	ft_putstr_fd(" ", 1);
+	while (i < column_nb + 1)
+	{
+		ft_putstr_fd("‾‾‾‾", 1);
+		// ft_putstr_fd(ft_itoa(i), 1);
+		i++;
+	}
+	ft_putstr_fd("\n", 1);
+
+	i = 1;
+	while (i < column_nb + 1)
+	{
+		ft_putstr_fd("  ", 1);
+		ft_putstr_fd(ft_itoa(i), 1);
+		ft_putstr_fd(" ", 1);
+		i++;
+	}
+	ft_putstr_fd("\n", 1);
 	return 0;
+}
+
+
+int launch_game(int **grid, int line_nb, int column_nb)
+{
+	int player_move;
+
+	while (1 == 1)
+	{
+		player_move = ft_atoi(get_next_line(0));
+		// maybe to do in the fucntion itself, better encapsulation
+		if (make_player_move(grid, line_nb, column_nb, player_move) != 1);
+		else
+			return (1);
+		display_grid(grid, line_nb, column_nb);
+
+	}
+}
+
+int make_player_move(int **grid, int line_nb, int column_nb, int player_index)
+{
+	player_index--;
+	// to add some check with height of the grid when to much pawns
+	if (player_index > column_nb - 1 || player_index < 0)
+		return (1);
+	int height = get_height(grid, player_index, line_nb);
+	if (height == 0)
+		return (1);
+	grid[height][column_nb] = PLAYER;
+	return (0);
+}
+
+int get_height(int **grid, int column_index, int line_nb)
+{
+	int i = line_nb - 1;
+	while (grid[line_nb][i] != 0 && i > 0)
+		i--;
+	return i;
 }
