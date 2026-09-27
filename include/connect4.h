@@ -6,7 +6,7 @@
 /*   By: bcondemi <bcondemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/26 12:18:10 by bcondemi          #+#    #+#             */
-/*   Updated: 2026/09/27 08:04:10 by jureix-c         ###   ########lyon.fr   */
+/*   Updated: 2026/09/27 08:25:51 by jureix-c         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 # define CONNECT4_H
 
 // INCLUDES
-#include <stdio.h>
 #include <stdbool.h>
-
-#include "libft.h"
 
 // ENUMS
 enum OWNER {
@@ -42,6 +39,7 @@ t_game	*init_game(int w, int h);
 void	free_game(t_game *game);
 
 // Player
+int		get_player_move(t_game *game);
 int		make_player_move(t_game *game, int column_index);
 
 // AI

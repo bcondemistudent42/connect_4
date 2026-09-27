@@ -6,22 +6,19 @@
 /*   By: bcondemi <bcondemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/26 10:43:56 by bcondemi          #+#    #+#             */
-/*   Updated: 2026/09/27 08:03:09 by jureix-c         ###   ########lyon.fr   */
+/*   Updated: 2026/09/27 08:27:57 by jureix-c         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <time.h>
 #include <unistd.h>
+#include "libft.h"
 #include "ft_printf/ft_printf.h"
-#include "get_next_line/get_next_line.h"
 
 #include "connect4.h"
 #include "constants.h"
 
 int connect4(t_game *game)
 {
-	int		column_index;
-	char	*buf;
 	int		winner;
 
 	if (game->pfirst)
@@ -32,18 +29,14 @@ int connect4(t_game *game)
 	{
 		display_grid(game);
 		// Player move
-		buf = get_next_line(0);
-		if (!buf)
+		if (get_player_move(game) == -1)
 			return (1);
-		column_index = ft_atoi(buf);
-		free(buf);
-		if (make_player_move(game, column_index))
-			ft_printf(INVALID_MOVE_ERR);
+		// AI move if not won
 		winner = check_win(game);
 		if (winner == EMPTY)
 		{
-			// AI move
 			make_ai_move(game);
+			// Win check
 			winner = check_win(game);
 		}
 		if (winner != EMPTY)
@@ -54,6 +47,7 @@ int connect4(t_game *game)
 		ft_printf(WIN_LITERAL);
 	else
 		ft_printf(LOSE_LITERAL);
+	//TODO: Draw condition when board full of hsit
 	return (0);
 }
 

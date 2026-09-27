@@ -8,6 +8,11 @@
 # define PLAYER_CHAR 'O'
 # define COMPUTER_CHAR 'X'
 
+// AI
+# define AI_DEPTH 5
+# define CENTER_BONUS 2
+# define WIN_BONUS 1000000
+
 // LITERALS
 # define WIN_LITERAL "GGWP :)\n"
 # define LOSE_LITERAL "You suck!\n"
