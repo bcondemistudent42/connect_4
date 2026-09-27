@@ -7,8 +7,7 @@
 // PROTOTYPES
 static int	minimax(t_game *game, int depth, bool max, int last_row, int last_col, int alpha, int beta);
 static int	heuristic(t_game *game);
-static int	near_win_heuristic(t_game *game, char player);
-static int	process_line(t_game *game, int row, int col, int ver_dir, int hor_dir);
+static int	line_projection_heuristic(t_game *game, int row, int col, int ver_dir, int hor_dir);
 static int	center_bonus(t_game *game, int col);
 
 int	make_ai_move(t_game *game, bool max)
@@ -140,71 +139,55 @@ static int	heuristic(t_game *game)
 				score += center_bonus(game, j);
 			else if (game->grid[i][j] == PLAYER)
 				score -= center_bonus(game, j);
+			score += line_projection_heuristic(game, i, j, 0, 1)
+				+ line_projection_heuristic(game, i, j, 1, 0)
+				+ line_projection_heuristic(game, i, j, 1, 1)
+				+ line_projection_heuristic(game, i, j, 1, -1);
 			j++;
 		}
 		i++;
 	}
-	score += near_win_heuristic(game, COMPUTER);
-	score -= near_win_heuristic(game, PLAYER);
 	return (score);
 }
 
-// Near win/lose scoring
-static int	near_win_heuristic(t_game *game, char player)
+// Score a potential line and sign depends on who has more cases
+static int	line_projection_heuristic(t_game *game, int row, int col, int ver_dir, int hor_dir)
 {
-	int i, j;
+	int	computer;
+	int	player;
 	int	score;
+	int	k;
 
-	score = 0;
-	i = 0;
-	while (i < game->h)
-	{
-		j = 0;
-		while (j < game->w)
-		{
-			if (game->grid[i][j] == player)
-			{
-				score += process_line(game, i, j, 1, 0)
-					+ process_line(game, i, j, 0, 1)
-					+ process_line(game, i, j, 1, 1)
-					+ process_line(game, i, j, 1, -1);
-			}
-			j++;
-		}
-		i++;
-	}
-	return (score);
-}
-
-static int	process_line(t_game *game, int row, int col, int ver_dir, int hor_dir)
-{
-	char	player;
-	int		i;
-	int		score;
-
-	player = game->grid[row][col];
-	row += ver_dir * 3;
-	col += hor_dir * 3;
-	i = 0;
-	score = 100;
-	while (i < 4)
+	computer = 0;
+	player = 0;
+	score = 1000;
+	k = 0;
+	while (k < 4)
 	{
 		if (row < 0 || row >= game->h || col < 0 || col >= game->w)
 			return (0);
-		if (game->grid[row][col] != player && game->grid[row][col] != EMPTY)
-			return (0);
-		if (game->grid[row][col] == EMPTY)
+		if (game->grid[row][col] == COMPUTER)
+			computer++;
+		else if (game->grid[row][col] == PLAYER)
+			player++;
+		else
 		{
 			if (hor_dir != 0 && row != game->h - 1
 				&& game->grid[row + 1][col] == EMPTY)
 				score /= 10;
 			score /= 10;
 		}
-		row -= ver_dir;
-		col -= hor_dir;
-		i++;
+		row += ver_dir;
+		col += hor_dir;
+		k++;
 	}
-	return (score);
+	if (computer > 0 && player > 0)
+		return (0);
+	if (player > 0)
+		return (-score);
+	if (computer > 0)
+		return (score);
+	return (0);
 }
 
 // Bonus the more it's horizontally centered, starting from 4 away each side
