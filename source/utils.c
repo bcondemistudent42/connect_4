@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jureix-c <jureix-c@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/27 10:07:39 by jureix-c          #+#    #+#             */
+/*   Updated: 2026/09/27 10:09:11 by jureix-c         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdbool.h>
 
 #include "connect4.h"
@@ -5,6 +17,35 @@
 
 // PROTOTYPES
 static bool	check_line(t_game *game, int row, int col, int ver_dir, int hor_dir);
+static int	count_dir(t_game *game, int row, int col, int ver_dir, int hor_dir);
+
+bool	is_board_full(t_game *game)
+{
+	int	j;
+
+	j = 0;
+	while (j < game->w)
+	{
+		if (game->grid[0][j] == EMPTY)
+			return (false);
+		j++;
+	}
+	return (true);
+}
+
+// Check only last move, 8 dirs
+bool	check_win_optimized(t_game *game, int row, int col)
+{
+	if (1 + count_dir(game, row, col, 0, 1) + count_dir(game, row, col, 0, -1) >= 4)
+		return (true);
+	if (1 + count_dir(game, row, col, 1, 0) + count_dir(game, row, col, -1, 0) >= 4)
+		return (true);
+	if (1 + count_dir(game, row, col, 1, 1) + count_dir(game, row, col, -1, -1) >= 4)
+		return (true);
+	if (1 + count_dir(game, row, col, 1, -1) + count_dir(game, row, col, -1, 1) >= 4)
+		return (true);
+	return (false);
+}
 
 int get_height(t_game *game, int column_index)
 {
@@ -17,8 +58,8 @@ int get_height(t_game *game, int column_index)
 
 int	check_win(t_game *game)
 {
-	int		i, j;
-	bool	draw;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (i < game->h)
@@ -38,13 +79,7 @@ int	check_win(t_game *game)
 		}
 		i++;
 	}
-	// Draw check
-	draw = true;
-	j = 0;
-	while (j < game->w)
-		if (get_height(game, j++) >= 0)
-			draw = false;
-	if (draw)
+	if (is_board_full(game))
 		return (-1);
 	return (EMPTY);
 }
@@ -80,4 +115,25 @@ static bool	check_line(t_game *game, int row, int col, int ver_dir, int hor_dir)
 		i++;
 	}
 	return (true);
+}
+
+// Count matching cells in dir
+static int	count_dir(t_game *game, int row, int col, int ver_dir, int hor_dir)
+{
+	char	player;
+	int		count;
+
+	player = game->grid[row][col];
+	count = 0;
+	row += ver_dir;
+	col += hor_dir;
+	while (row >= 0 && row < game->h
+			&& col >= 0 && col < game->w
+			&& game->grid[row][col] == player)
+	{
+		count++;
+		row += ver_dir;
+		col += hor_dir;
+	}
+	return (count);
 }

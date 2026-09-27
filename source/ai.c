@@ -5,22 +5,33 @@
 #include "constants.h"
 
 // PROTOTYPES
-static int	minimax(t_game *game, int depth, bool max);
+static int	minimax(t_game *game, int depth, bool max, int last_row, int last_col, int alpha, int beta);
 static int	heuristic(t_game *game);
 static int	near_win_heuristic(t_game *game, char player);
 static int	process_line(t_game *game, int row, int col, int ver_dir, int hor_dir);
 static int	center_bonus(t_game *game, int col);
 
-int	make_ai_move(t_game *game)
+int	make_ai_move(t_game *game, bool max)
 {
-	int	col;
-	int	row;
-	int	score;
-	int	best_score;
-	int	best_col;
+	int		col;
+	int		row;
+	int		score;
+	int		best_score;
+	int		best_col;
+	int		alpha;
+	int		beta;
+	char	piece;
 
+	piece = PLAYER;
+	if (max)
+		piece = COMPUTER;
 	col = 0;
-	best_score = INT_MIN;
+	alpha = INT_MIN;
+	beta = INT_MAX;
+	if (max)
+		best_score = INT_MIN;
+	else
+		best_score = INT_MAX;
 	best_col = -1;
 	while (col < game->w)
 	{
@@ -28,14 +39,21 @@ int	make_ai_move(t_game *game)
 		score = 0;
 		if (row >= 0)
 		{
-			game->grid[row][col] = COMPUTER;
-			score = minimax(game, game->ai_depth - 1, false);
+			game->grid[row][col] = piece;
+			score = minimax(game, game->ai_depth - 1, !max, row, col, alpha, beta);
 			game->grid[row][col] = EMPTY;
-			if (score > best_score)
+			if ((max && score > best_score) || (!max && score < best_score))
 			{
 				best_score = score;
 				best_col = col;
 			}
+			// Alpha beta pruning
+			if (max && best_score > alpha)
+				alpha = best_score;
+			if (!max && best_score < beta)
+				beta = best_score;
+			if (alpha >= beta)
+				break ;
 		}
 #ifdef DEBUG
 		ft_printf("| %d ", score);
@@ -44,26 +62,29 @@ int	make_ai_move(t_game *game)
 	}
 	if (best_col == -1)
 		return (1);
+#ifdef DEBUG
+		ft_printf("alpha >= beta hit, best_col=%d", best_col);
+#endif
 	row = get_height(game, best_col);
-	game->grid[row][best_col] = COMPUTER;
+	game->grid[row][best_col] = piece;
 	return (0);
 }
 
-static int	minimax(t_game *game, int depth, bool max)
+static int	minimax(t_game *game, int depth, bool max, int last_row, int last_col, int alpha, int beta)
 {
 	int	col;
 	int	row;
 	int	score;
 	int	best;
-	int	winner;
 
-	// Chcek win, heuristic if hit max depth
-	winner = check_win(game);
-	if (winner == COMPUTER)
-		return (WIN_BONUS);
-	if (winner == PLAYER)
+	// Check win from last move, heuristic if hit max depth
+	if (check_win_optimized(game, last_row, last_col))
+	{
+		if (game->grid[last_row][last_col] == COMPUTER)
+			return (WIN_BONUS);
 		return (-WIN_BONUS);
-	if (winner == -1)
+	}
+	if (is_board_full(game))
 		return (0);
 	if (depth == 0)
 		return (heuristic(game));
@@ -83,12 +104,19 @@ static int	minimax(t_game *game, int depth, bool max)
 				game->grid[row][col] = COMPUTER;
 			else
 				game->grid[row][col] = PLAYER;
-			score = minimax(game, depth - 1, !max);
+			score = minimax(game, depth - 1, !max, row, col, alpha, beta);
 			game->grid[row][col] = EMPTY;
 			if (max && score > best)
 				best = score;
 			if (!max && score < best)
 				best = score;
+			// Alpha beta pruning
+			if (max && best > alpha)
+				alpha = best;
+			if (!max && best < beta)
+				beta = best;
+			if (alpha >= beta)
+				break ;
 		}
 		col++;
 	}

@@ -4,3 +4,4 @@ connect4
 
 # Env
 compile_commands.json
+gmon.out

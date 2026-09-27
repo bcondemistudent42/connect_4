@@ -39,6 +39,7 @@ typedef struct s_game {
 // PROTOTYPES
 // Game
 int		connect4(t_game *game);
+int		connect4_selfplay(t_game *game);
 t_game	*init_game(int w, int h);
 void	free_game(t_game *game);
 
@@ -47,7 +48,7 @@ int		get_player_move(t_game *game);
 int		make_player_move(t_game *game, int column_index);
 
 // AI
-int		make_ai_move(t_game *game);
+int		make_ai_move(t_game *game, bool max);
 
 // Display
 int		display_grid(t_game *game);
@@ -55,6 +56,8 @@ int		display_grid(t_game *game);
 // Utils
 int		get_height(t_game *game, int column_index);
 int		check_win(t_game *game);
+bool	check_win_optimized(t_game *game, int row, int col);
+bool	is_board_full(t_game *game);
 int		get_ai_depth(t_game *game);
 
 #endif

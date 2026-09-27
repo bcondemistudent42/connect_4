@@ -63,6 +63,12 @@ $(LIBFT): FORCE
 debug: CFLAGS = -Wall -Wextra -g3 -DDEBUG
 debug: all
 
+.PHONY: perftest
+perftest: CFLAGS = -Wall -Wextra -pg
+perftest: all
+	timeout 5 ./$(MAIN) 6 7 selfplay > /dev/null || true
+	gprof ./$(MAIN) gmon.out
+
 .PHONY: todo
 todo:
 	grep -irn --color=always "TODO\|FIXME" source/ include/

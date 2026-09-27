@@ -6,7 +6,7 @@
 /*   By: bcondemi <bcondemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/26 10:43:56 by bcondemi          #+#    #+#             */
-/*   Updated: 2026/09/27 09:16:13 by jureix-c         ###   ########lyon.fr   */
+/*   Updated: 2026/09/27 10:45:07 by jureix-c         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int connect4(t_game *game)
 	if (game->pfirst)
 		ft_printf(FIRST_TO_PLAY_LITERAL);
 	else
-		make_ai_move(game);
+		make_ai_move(game, true);
 	while (true)
 	{
 		display_grid(game);
@@ -36,7 +36,7 @@ int connect4(t_game *game)
 		winner = check_win(game);
 		if (winner == EMPTY)
 		{
-			make_ai_move(game);
+			make_ai_move(game, true);
 			// Win check
 			winner = check_win(game);
 		}
@@ -58,7 +58,7 @@ int main(int argc, char **argv)
 	t_game	*game;
 	int		w, h;
 
-	if (argc != 3)
+	if (argc != 3 && argc != 4)
 		return (1);
 	h = ft_atoi(argv[1]);
 	w = ft_atoi(argv[2]);
@@ -76,7 +76,10 @@ int main(int argc, char **argv)
 		return (1);
 	}
 
-	connect4(game);
+	if (argc == 4)
+		connect4_selfplay(game);
+	else
+		connect4(game);
 	free_game(game);
 	get_next_line_cleanup();
 }

@@ -4,3 +4,4 @@ SRCS = $(SRCDIR)/main.c \
 	   $(SRCDIR)/ai.c \
 	   $(SRCDIR)/memory.c \
 	   $(SRCDIR)/utils.c \
+	   $(SRCDIR)/perfs.c \

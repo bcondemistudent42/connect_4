@@ -11,8 +11,8 @@
 // AI
 // Budget
 # define MIN_AI_DEPTH 2
-# define MAX_AI_DEPTH 6
-# define CELLS_PER_DEPTH 50
+# define MAX_AI_DEPTH 8
+# define CELLS_PER_DEPTH 100
 // Heuristics
 # define CENTER_BONUS 2
 # define WIN_BONUS 1000000
