@@ -1,5 +1,4 @@
 #include <limits.h>
-
 #include "ft_printf/ft_printf.h"
 
 #include "connect4.h"
@@ -8,6 +7,8 @@
 // PROTOTYPES
 static int	minimax(t_game *game, int depth, bool max);
 static int	heuristic(t_game *game);
+static int	near_win_heuristic(t_game *game, char player);
+static int	process_line(t_game *game, int row, int col, int ver_dir, int hor_dir);
 static int	center_bonus(t_game *game, int col);
 
 int	make_ai_move(t_game *game)
@@ -111,6 +112,61 @@ static int	heuristic(t_game *game)
 				score -= center_bonus(game, j);
 			j++;
 		}
+		i++;
+	}
+	score += near_win_heuristic(game, COMPUTER);
+	score -= near_win_heuristic(game, PLAYER);
+	return (score);
+}
+
+// Near win/lose scoring
+static int	near_win_heuristic(t_game *game, char player)
+{
+	int i, j;
+	int	score;
+
+	score = 0;
+	i = 0;
+	while (i < game->h)
+	{
+		j = 0;
+		while (j < game->w)
+		{
+			if (game->grid[i][j] == player)
+			{
+				score += process_line(game, i, j, 1, 0)
+					+ process_line(game, i, j, 0, 1)
+					+ process_line(game, i, j, 1, 1)
+					+ process_line(game, i, j, 1, -1);
+			}
+			j++;
+		}
+		i++;
+	}
+	return (score);
+}
+
+static int	process_line(t_game *game, int row, int col, int ver_dir, int hor_dir)
+{
+	char	player;
+	int		i;
+	int		score;
+
+	player = game->grid[row][col];
+	row += ver_dir * 3;
+	col += hor_dir * 3;
+	i = 0;
+	score = 100;
+	while (i < 4)
+	{
+		if (row < 0 || row >= game->h || col < 0 || col >= game->w)
+			return (0);
+		if (game->grid[row][col] != player && game->grid[row][col] != EMPTY)
+			return (0);
+		if (game->grid[row][col] == EMPTY)
+			score /= 10;
+		row -= ver_dir;
+		col -= hor_dir;
 		i++;
 	}
 	return (score);

@@ -1,6 +1,8 @@
-#include "connect4.h"
 #include <stdlib.h>
 #include <time.h>
+#include "libft.h"
+
+#include "connect4.h"
 
 t_game	*init_game(int w, int h)
 {
