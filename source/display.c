@@ -15,9 +15,9 @@ int display_grid(t_game *game)
 		while (j < game->w)
 		{
 			if (game->grid[i][j] == PLAYER)
-				ft_printf(" %c ", PLAYER_CHAR);
+				ft_printf(" \033[33m%c\033[0m ", PLAYER_CHAR);
 			else if (game->grid[i][j] == COMPUTER)
-				ft_printf(" %c ", COMPUTER_CHAR);
+				ft_printf(" \033[31m%c\033[0m ", COMPUTER_CHAR);
 			else
 				ft_printf("   ");
 			ft_printf("|");

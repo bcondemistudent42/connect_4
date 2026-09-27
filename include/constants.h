@@ -14,7 +14,7 @@
 # define MAX_AI_DEPTH 8
 # define CELLS_PER_DEPTH 100
 // Heuristics
-# define CENTER_BONUS 2
+# define CENTER_BONUS 1
 # define WIN_BONUS 1000000
 
 // LITERALS
