@@ -63,6 +63,8 @@ static int	minimax(t_game *game, int depth, bool max)
 		return (WIN_BONUS);
 	if (winner == PLAYER)
 		return (-WIN_BONUS);
+	if (winner == -1)
+		return (0);
 	if (depth == 0)
 		return (heuristic(game));
 	// Max = computer turn
