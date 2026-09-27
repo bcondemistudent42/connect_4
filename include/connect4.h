@@ -40,6 +40,7 @@ typedef struct s_game {
 // Game
 int		connect4(t_game *game);
 int		connect4_selfplay(t_game *game);
+int		connect4_tui(t_game *game);
 t_game	*init_game(int w, int h);
 void	free_game(t_game *game);
 

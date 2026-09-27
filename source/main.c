@@ -76,8 +76,13 @@ int main(int argc, char **argv)
 		return (1);
 	}
 
-	if (argc == 4)
+	if (argc == 4 && ft_strcmp(argv[3], "selfplay") == 0)
 		connect4_selfplay(game);
+	else if (argc == 4 && ft_strcmp(argv[3], "tui") == 0)
+	{
+		game->display_mode = true;
+		connect4_tui(game);
+	}
 	else
 		connect4(game);
 	free_game(game);
