@@ -164,7 +164,12 @@ static int	process_line(t_game *game, int row, int col, int ver_dir, int hor_dir
 		if (game->grid[row][col] != player && game->grid[row][col] != EMPTY)
 			return (0);
 		if (game->grid[row][col] == EMPTY)
+		{
+			if (hor_dir != 0 && row != game->h - 1
+				&& game->grid[row + 1][col] == EMPTY)
+				score /= 10;
 			score /= 10;
+		}
 		row -= ver_dir;
 		col -= hor_dir;
 		i++;

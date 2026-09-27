@@ -6,13 +6,14 @@
 /*   By: bcondemi <bcondemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/26 10:43:56 by bcondemi          #+#    #+#             */
-/*   Updated: 2026/09/27 08:27:57 by jureix-c         ###   ########lyon.fr   */
+/*   Updated: 2026/09/27 09:16:13 by jureix-c         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "libft.h"
 #include "ft_printf/ft_printf.h"
+#include "get_next_line/get_next_line.h"
 
 #include "connect4.h"
 #include "constants.h"
@@ -22,7 +23,7 @@ int connect4(t_game *game)
 	int		winner;
 
 	if (game->pfirst)
-		ft_printf("You are the first to play, this time.\n");
+		ft_printf(FIRST_TO_PLAY_LITERAL);
 	else
 		make_ai_move(game);
 	while (true)
@@ -45,9 +46,10 @@ int connect4(t_game *game)
 	display_grid(game);
 	if (winner == PLAYER)
 		ft_printf(WIN_LITERAL);
-	else
+	else if (winner == COMPUTER)
 		ft_printf(LOSE_LITERAL);
-	//TODO: Draw condition when board full of hsit
+	else
+		ft_printf(DRAW_LITERAL);
 	return (0);
 }
 

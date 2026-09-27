@@ -16,6 +16,9 @@
 // LITERALS
 # define WIN_LITERAL "GGWP :)\n"
 # define LOSE_LITERAL "You suck!\n"
+# define DRAW_LITERAL "Both the computer and you suck equally.\n"
+
+# define FIRST_TO_PLAY_LITERAL "You are the first to play, this time.\n"
 
 // ERRORS
 # define INIT_GAME_ERR "Error: cannot init game\n"

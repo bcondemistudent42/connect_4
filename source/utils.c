@@ -1,4 +1,5 @@
 #include "connect4.h"
+#include <stdbool.h>
 
 // PROTOTYPES
 static bool	check_line(t_game *game, int row, int col, int ver_dir, int hor_dir);
@@ -14,8 +15,8 @@ int get_height(t_game *game, int column_index)
 
 int	check_win(t_game *game)
 {
-	int	i;
-	int	j;
+	int		i, j;
+	bool	draw;
 
 	i = 0;
 	while (i < game->h)
@@ -35,6 +36,14 @@ int	check_win(t_game *game)
 		}
 		i++;
 	}
+	// Draw check
+	draw = true;
+	j = 0;
+	while (j < game->w)
+		if (get_height(game, j++) >= 0)
+			draw = false;
+	if (draw)
+		return (-1);
 	return (EMPTY);
 }
 
