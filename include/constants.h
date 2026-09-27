@@ -8,6 +8,10 @@
 # define PLAYER_CHAR 'O'
 # define COMPUTER_CHAR 'X'
 
+// LITERALS
+# define WIN_LITERAL "GGWP :)\n"
+# define LOSE_LITERAL "You suck!\n"
+
 // ERRORS
 # define INIT_GAME_ERR "Error: cannot init game\n"
 # define HEIGHT_GAME_ERR "Error: height cannot be under %d\n"

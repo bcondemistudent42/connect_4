@@ -6,7 +6,7 @@
 /*   By: bcondemi <bcondemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/26 12:18:10 by bcondemi          #+#    #+#             */
-/*   Updated: 2026/09/27 07:42:54 by jureix-c         ###   ########lyon.fr   */
+/*   Updated: 2026/09/27 08:04:10 by jureix-c         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,6 @@ int		display_grid(t_game *game);
 
 // Utils
 int		get_height(t_game *game, int column_index);
+int		check_win(t_game *game);
 
 #endif

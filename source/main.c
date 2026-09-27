@@ -6,7 +6,7 @@
 /*   By: bcondemi <bcondemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/26 10:43:56 by bcondemi          #+#    #+#             */
-/*   Updated: 2026/09/27 07:44:39 by jureix-c         ###   ########lyon.fr   */
+/*   Updated: 2026/09/27 08:03:09 by jureix-c         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int connect4(t_game *game)
 {
 	int		column_index;
 	char	*buf;
+	int		winner;
 
 	if (game->pfirst)
 		ft_printf("You are the first to play, this time.\n");
@@ -38,9 +39,22 @@ int connect4(t_game *game)
 		free(buf);
 		if (make_player_move(game, column_index))
 			ft_printf(INVALID_MOVE_ERR);
-		// AI move
-		make_ai_move(game);
+		winner = check_win(game);
+		if (winner == EMPTY)
+		{
+			// AI move
+			make_ai_move(game);
+			winner = check_win(game);
+		}
+		if (winner != EMPTY)
+			break ;
 	}
+	display_grid(game);
+	if (winner == PLAYER)
+		ft_printf(WIN_LITERAL);
+	else
+		ft_printf(LOSE_LITERAL);
+	return (0);
 }
 
 int main(int argc, char **argv)
