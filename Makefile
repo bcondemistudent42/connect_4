@@ -6,6 +6,7 @@ INCLUDE = -I include -I libs/libft/include
 SRCDIR = source
 BUILDDIR = build
 
+LIBS = -lncursesw -lm
 LIBFT = libs/libft/libft.a
 
 include sources.mk
@@ -23,7 +24,7 @@ all: $(MAIN)
 
 $(MAIN): $(LIBFT) $(OBJS)
 	@echo -n "\033[3;90m🔨 "
-	$(CC) $(CFLAGS) $(NORELINK) $(INCLUDE) -o $@ $^ $(LIBFT)
+	$(CC) $(CFLAGS) $(NORELINK) $(INCLUDE) -o $@ $^ $(LIBFT) $(LIBS)
 	@echo -n "\033[0m \n \033[32;40;1m✅ Build done!\033[0m\n"
 
 %/:
