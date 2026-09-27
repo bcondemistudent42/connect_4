@@ -1,4 +1,6 @@
 #include "connect4.h"
+#include <stdlib.h>
+#include <time.h>
 
 t_game	*init_game(int w, int h)
 {
@@ -27,6 +29,8 @@ t_game	*init_game(int w, int h)
 		}
 		i++;
 	}
+	srand(time(NULL));
+	game->pfirst = rand() % 2;
 	return (game);
 }
 

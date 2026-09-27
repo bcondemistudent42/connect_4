@@ -6,10 +6,11 @@
 /*   By: bcondemi <bcondemi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/26 10:43:56 by bcondemi          #+#    #+#             */
-/*   Updated: 2026/09/27 07:28:57 by jureix-c         ###   ########lyon.fr   */
+/*   Updated: 2026/09/27 07:44:39 by jureix-c         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <time.h>
 #include <unistd.h>
 #include "ft_printf/ft_printf.h"
 #include "get_next_line/get_next_line.h"
@@ -22,6 +23,10 @@ int connect4(t_game *game)
 	int		column_index;
 	char	*buf;
 
+	if (game->pfirst)
+		ft_printf("You are the first to play, this time.\n");
+	else
+		make_ai_move(game);
 	while (true)
 	{
 		display_grid(game);
@@ -33,10 +38,8 @@ int connect4(t_game *game)
 		free(buf);
 		if (make_player_move(game, column_index))
 			ft_printf(INVALID_MOVE_ERR);
-		// AI
-		// TODO choose if : depend on the first random
-		// make bot play
-		// make the player play
+		// AI move
+		make_ai_move(game);
 	}
 }
 
