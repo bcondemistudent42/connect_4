@@ -1,0 +1,52 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   connect4.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bcondemi <bcondemi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/26 12:18:10 by bcondemi          #+#    #+#             */
+/*   Updated: 2026/09/27 07:09:12 by jureix-c         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
+
+#ifndef CONNECT4_H
+# define CONNECT4_H
+
+// INCLUDES
+#include <stdio.h>
+#include <stdbool.h>
+
+#include "libft.h"
+
+// ENUMS
+enum OWNER {
+	EMPTY = 0,
+	COMPUTER = 1,
+	PLAYER = 2,
+}; 
+
+// STRUCTS
+typedef struct s_game {
+	bool	display_mode;
+	int		w, h;
+	char	**grid;
+}	t_game;
+
+// PROTOTYPES
+// Game
+int		connect4(t_game *game);
+t_game	*init_game(int w, int h);
+void	free_game(t_game *game);
+
+// Player
+int		make_player_move(t_game *game, int column_index);
+
+// Display
+int		display_grid(t_game *game);
+
+// Utils
+int		get_height(t_game *game, int column_index);
+
+#endif

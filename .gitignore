@@ -1,1 +1,6 @@
-a.out
+# Build
+build/
+connect4
+
+# Env
+compile_commands.json
