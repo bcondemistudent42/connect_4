@@ -1,0 +1,13 @@
+{
+	ncurses
+	Memcheck:Leak
+	...
+	obj:*/libncursesw.so*
+}
+
+{
+	libtinfo
+	Memcheck:Leak
+	...
+	obj:*/libtinfo.so*
+}

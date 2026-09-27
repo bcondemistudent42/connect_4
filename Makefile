@@ -1,6 +1,6 @@
 # Base params
 MAIN = connect4
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -Ofast
 NORELINK = -MD -MP
 INCLUDE = -I include -I libs/libft/include
 SRCDIR = source

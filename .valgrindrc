@@ -1,0 +1,5 @@
+--leak-check=full
+--show-leak-kinds=all
+--suppressions=resource/ncurses.supp
+--track-origins=yes
+-s
