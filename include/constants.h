@@ -9,7 +9,11 @@
 # define COMPUTER_CHAR 'X'
 
 // AI
-# define AI_DEPTH 5
+// Budget
+# define MIN_AI_DEPTH 2
+# define MAX_AI_DEPTH 6
+# define CELLS_PER_DEPTH 50
+// Heuristics
 # define CENTER_BONUS 2
 # define WIN_BONUS 1000000
 

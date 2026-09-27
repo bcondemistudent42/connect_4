@@ -1,5 +1,7 @@
-#include "connect4.h"
 #include <stdbool.h>
+
+#include "connect4.h"
+#include "constants.h"
 
 // PROTOTYPES
 static bool	check_line(t_game *game, int row, int col, int ver_dir, int hor_dir);
@@ -45,6 +47,19 @@ int	check_win(t_game *game)
 	if (draw)
 		return (-1);
 	return (EMPTY);
+}
+
+// fewer cells = can afford to search deeper
+int	get_ai_depth(t_game *game)
+{
+	int	depth;
+
+	depth = MAX_AI_DEPTH - (game->w * game->h) / CELLS_PER_DEPTH;
+	if (depth < MIN_AI_DEPTH)
+		depth = MIN_AI_DEPTH;
+	if (depth > MAX_AI_DEPTH)
+		depth = MAX_AI_DEPTH;
+	return (depth);
 }
 
 static bool	check_line(t_game *game, int row, int col, int ver_dir, int hor_dir)

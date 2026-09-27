@@ -29,7 +29,7 @@ int	make_ai_move(t_game *game)
 		if (row >= 0)
 		{
 			game->grid[row][col] = COMPUTER;
-			score = minimax(game, AI_DEPTH - 1, false);
+			score = minimax(game, game->ai_depth - 1, false);
 			game->grid[row][col] = EMPTY;
 			if (score > best_score)
 			{

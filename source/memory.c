@@ -33,6 +33,10 @@ t_game	*init_game(int w, int h)
 	}
 	srand(time(NULL));
 	game->pfirst = rand() % 2;
+	game->ai_depth = get_ai_depth(game);
+#ifdef DEBUG
+	ft_printf("AI_DEPTH=%d\n", game->ai_depth);
+#endif
 	return (game);
 }
 
