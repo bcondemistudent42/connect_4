@@ -1,5 +1,7 @@
 #include <limits.h>
 
+#include "ft_printf/ft_printf.h"
+
 #include "connect4.h"
 #include "constants.h"
 
@@ -22,6 +24,7 @@ int	make_ai_move(t_game *game)
 	while (col < game->w)
 	{
 		row = get_height(game, col);
+		score = 0;
 		if (row >= 0)
 		{
 			game->grid[row][col] = COMPUTER;
@@ -33,6 +36,9 @@ int	make_ai_move(t_game *game)
 				best_col = col;
 			}
 		}
+#ifdef DEBUG
+		ft_printf("| %d ", score);
+#endif
 		col++;
 	}
 	if (best_col == -1)

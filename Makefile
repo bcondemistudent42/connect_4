@@ -60,7 +60,7 @@ $(LIBFT): FORCE
 
 # Utils
 .PHONY: debug
-debug: CFLAGS = -Wall -Wextra -g3
+debug: CFLAGS = -Wall -Wextra -g3 -DDEBUG
 debug: all
 
 .PHONY: todo
